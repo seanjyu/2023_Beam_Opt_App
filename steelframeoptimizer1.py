@@ -13,7 +13,7 @@ DL=1
 LL=1
 Height=10
 Width=10
-xl_file = pd.read_csv(wsec.csv) # r'C:\Users\Sean Yu\Desktop\Summer Projects\Steel Framing optimizer\wsec.csv')
+xl_file = pd.read_csv(r'wsec.csv') # r'C:\Users\Sean Yu\Desktop\Summer Projects\Steel Framing optimizer\wsec.csv')
 
 
 def beam_load(DL,LL,leng):
