@@ -275,9 +275,6 @@ def opt_test():
 
 #streamlit UI
 st.title("Steel Framing Optimizer")
-
-#st.text("Test")
-#Selectbox
 st.sidebar.title("Inputs")
 st.sidebar.subheader("Dimensions")
 Height_input=st.sidebar.number_input("Height (ft)",min_value=0.0,format='%f',step=1.0)
@@ -289,8 +286,11 @@ depth_limit_g=st.sidebar.number_input("Depth Limit on Girders(in)",min_value=0.0
 st.sidebar.subheader("Loads")
 DL_input=st.sidebar.number_input("Dead Load (psf)")
 LL_input=st.sidebar.number_input("Live Load (psf)")
-SL_input=st.sidebar.number_input("Snow Load (psf)")
-RL_input=st.sidebar.number_input("Roof Load (psf)")
+
+#Following Options hidden for future use
+#SL_input=st.sidebar.number_input("Snow Load (psf)")
+#RL_input=st.sidebar.number_input("Roof Load (psf)")
+
 if st.sidebar.button("Submit"):
     if Height_input<=0:
         st.error("Please input a Height larger than 0")
