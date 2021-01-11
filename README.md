@@ -2,7 +2,7 @@
 
 The following link goes to the streamlit app hosted on Heroku: https://beamoptapp.herokuapp.com/
 
-##Package Requirements##
+##Package Requirements
 To run this app the following packages must be installed.
 
 Streamlit (0.62.0)
