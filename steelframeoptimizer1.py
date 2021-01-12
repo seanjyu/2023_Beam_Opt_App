@@ -9,7 +9,6 @@ pd.options.mode.chained_assignment = None
 #determine loading
 xl_file = pd.read_csv(r'wsec.csv') # r'C:\Users\Sean Yu\Desktop\Summer Projects\Steel Framing optimizer\wsec.csv')
 
-
 def beam_load(DL,LL,leng):
     #Calculate load on beam given psf loads and Height in feet, outputs moment in kip-in
     lc1=1.4*DL
@@ -48,7 +47,7 @@ def design(df,leng,lc,demand, depth,fy=50):
     if len(sortedp)+len(sortedi)+len(sortede)==0:
         fail_m = 'All possible members fail through flexure'
         return fail_m
-
+    #Compare values
     while check!=1:
         comparevals={}
         if len(sortedp)>0:
@@ -163,9 +162,9 @@ def frame_optimizer(df,Height,width,DL,LL,fy=50):
                 weight_1=mid_beam['W']*beam_no*short+end_beam['W']*2*short+girder['W']*2*long
                 #compare, if larger then break
                 if weight_0<weight_1:
-                    sol=[beam_no,mid_beam,end_beam,girder]
                     break
                 else:
+                    sol = [beam_no, mid_beam, end_beam, girder,weight_1]
                     weight_0=weight_1
                     beam_no=beam_no+1
             else:
