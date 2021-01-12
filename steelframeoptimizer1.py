@@ -7,7 +7,6 @@ import plotly.graph_objects as go
 pd.options.mode.chained_assignment = None
 
 #determine loading
-
 xl_file = pd.read_csv(r'wsec.csv') # r'C:\Users\Sean Yu\Desktop\Summer Projects\Steel Framing optimizer\wsec.csv')
 
 
