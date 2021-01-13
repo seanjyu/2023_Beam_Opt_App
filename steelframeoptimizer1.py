@@ -15,7 +15,7 @@ def beam_load(DL,LL,leng):
     lc2=1.2*DL+1.6*LL
     all_lc=[lc1,lc2]
     mmom=max(all_lc)*(leng*12)**(2)/8/1000
-    mshear=max(all_lc)*leng*6/1000 #12/2
+    mshear=max(all_lc)*leng*6/1000
     lc_ind=all_lc.index(max(all_lc))
     return[mmom,mshear,lc_ind]
 
@@ -24,7 +24,8 @@ def design(df,leng,lc,demand, depth,fy=50):
     #Note demand should be in the units of kip-in and kips
 
     #First filter based on desired depth
-    df=df[df.d.astype(float) <= depth]
+    if depth !=0:
+        df=df[df.d.astype(float) <= depth]
 
     #Filter into different failure modes, note units are in kip-in
     plastic=df[df.Lp.astype(float)>=leng]
@@ -124,7 +125,7 @@ def girder_load(load,beam_no,Height):
         shear_count=shear_count-load
     return [moment,shear]
 
-def frame_optimizer(df,Height,width,DL,LL,fy=50):
+def frame_optimizer(df,Height,width,DL,LL,depth_b,depth_g, fy=50):
     #Height and width are the dimensions of the bay, loads are the area dead and live loads
     #Outputs list containing number of beams, sol=[beam_no,mid_beam,end_beam,girder]
 
@@ -148,15 +149,15 @@ def frame_optimizer(df,Height,width,DL,LL,fy=50):
         mid_loads=beam_load(mid_DL,mid_LL,short)
         end_loads = beam_load(end_DL, end_LL, short)
         #design mid beam
-        mid_beam=design(df,short,mid_loads[2],mid_loads[0:2],fy)
+        mid_beam=design(df,short,mid_loads[2],mid_loads[0:2],depth_b,fy)
         #design end beam
-        end_beam=design(df,short,end_loads[2],end_loads[0:2],fy)
+        end_beam=design(df,short,end_loads[2],end_loads[0:2],depth_b,fy)
         #Obtain Girder load
         if type(mid_beam)!=str:
             girder_LC=mid_beam['W']*short/2000+mid_loads[1]
             girder_loading=girder_load(girder_LC,beam_no,long)
             #design girder
-            girder=design(df,long,0,girder_loading[0:2],fy)
+            girder=design(df,long,0,girder_loading[0:2],depth_g,fy)
             #get total mass
             if isinstance(mid_beam,pd.Series) and isinstance(end_beam,pd.Series) and isinstance(girder,pd.Series):
                 weight_1=mid_beam['W']*beam_no*short+end_beam['W']*2*short+girder['W']*2*long
@@ -212,6 +213,8 @@ def visualizer_plotly(Height,width,beam_no,labels=['mid_beam','end_beam','girder
 
 #streamlit UI
 st.title("Steel Beam Optimizer")
+st.markdown('This app finds the optimum number of beams given dead and live loads and certain requirements. Note that all connections are assumed to be simply supported. Please input the required information in the sidebar and after pressing submit a result or an error message should appear.')
+st.markdown('A short write up on this app and how it came up with this solution can be found here: https://sjy2129.github.io/personal_website/Beam_opt_app.html')
 st.sidebar.title("Inputs")
 st.sidebar.subheader("Dimensions")
 Height_input=st.sidebar.number_input("Height (ft)",min_value=0.0,format='%f',step=1.0)
@@ -238,9 +241,11 @@ if st.sidebar.button("Submit"):
     elif fy_input<=0:
         st.error("Please input a yield strength larger than 0")
     else:
-        sol=frame_optimizer(xl_file,Height_input,width_input,DL_input,LL_input,fy_input)
-        if len(sol)==4:
+        sol=frame_optimizer(xl_file,Height_input,width_input,DL_input,LL_input,depth_limit_b,depth_limit_g,fy_input)
+        if len(sol)==5:
             fig=visualizer_plotly(Height_input,width_input,sol[0],labels=[sol[1]['EDI_Std_Nomenclature'],sol[2]['EDI_Std_Nomenclature'],sol[3]['EDI_Std_Nomenclature']])
             st.plotly_chart(fig)
+            result_str='The total weight of this system was '+str(sol[4]/100)+' kips.'
+            st.text(result_str)
         else:
             st.error(sol[0])
