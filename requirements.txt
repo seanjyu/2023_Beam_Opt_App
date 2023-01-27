@@ -1,4 +1,4 @@
-streamlit==0.62.0
-numpy==1.18.4
-pandas==1.0.3
-plotly==4.7.1
+streamlit == 0.62.0
+numpy == 1.18.4
+pandas == 1.0.3
+plotly == 5.12.0
