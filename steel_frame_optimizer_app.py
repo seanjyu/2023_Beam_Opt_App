@@ -2,12 +2,8 @@
 """
 Steel frame optimizer
 
-Webapp run using streamlit to find an optimal beam, joist, girder gravity
-system.
-
-Inputs
-
-Outputs
+Webapp run using streamlit to find an optimal beam gravity system.
+This file contains the streamlit code.
 """
 
 import streamlit as st
