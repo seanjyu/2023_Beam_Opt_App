@@ -23,8 +23,8 @@ def main():
         'an error message should appear.')
     st.markdown(
         'A short write up on this app and how it came up with this '
-        'solution can be found here: https://sjy2129.github.io/personal_'
-        'website/Beam_opt_app.html')
+        'solution can be found here: '
+        'https://seanjyu.github.io/beam_optimization_app/')
 
     # sidebar
     st.sidebar.title("Inputs")
