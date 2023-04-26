@@ -1,4 +1,4 @@
-# Beam Optimization Streamlit App
+# Beam Optimization Web App
 ![stream_lit_img](readme_img.PNG)
 
 This web application is designed to optimize the beam and girder gravity system's design based on dead and live loads. The elements are sized using American Wide Flange beams, and the optimization process includes determining the appropriate sizing and number of interior beams.
