@@ -3,7 +3,7 @@
 
 This web application is designed to optimize the beam and girder gravity system's design based on dead and live loads. The elements are sized using American Wide Flange beams, and the optimization process includes determining the appropriate sizing and number of interior beams.
 
-A more in depth documentation as to how this optimization can be found in my blog:
+A more in depth documentation as to how this optimization is achieved gcan be found in my blog:
 
 https://seanjyu.github.io/beam_optimization_app/
 
